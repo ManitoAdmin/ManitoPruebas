@@ -111,7 +111,7 @@ nextButton.addEventListener("click", () => {
 // Iniciar historia
 showScene();
 
-
+// ================== CURSOR ==================
 
 // Ocultar el cursor original de toda la página, incluso en botones, links, inputs, etc.
 const style = document.createElement('style');
@@ -131,7 +131,7 @@ cursor.style.backgroundImage = 'url("img/puntero.png")';
 cursor.style.backgroundSize = 'cover';
 cursor.style.pointerEvents = 'none';
 cursor.style.transform = 'translate(-50%, -50%)';
-cursor.style.zIndex = '9999';
+cursor.style.zIndex = '100000';
 document.body.appendChild(cursor);
 
 // Seguir el movimiento del cursor
@@ -206,4 +206,18 @@ document.addEventListener('click', (e) => {
 
     setTimeout(() => star.remove(), 1200);
   }
+});
+
+
+// ================== PANTALLA DE INICIO ==================
+const pantallaInicio = document.getElementById('pantalla-inicio');
+const btnComenzar = document.getElementById('btn-comenzar');
+
+btnComenzar.addEventListener('click', () => {
+  pantallaInicio.style.transition = 'opacity 1s ease';
+  pantallaInicio.style.opacity = '0';
+
+  setTimeout(() => {
+    pantallaInicio.style.display = 'none';
+  }, 1000);
 });
