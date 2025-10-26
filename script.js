@@ -110,3 +110,100 @@ nextButton.addEventListener("click", () => {
 
 // Iniciar historia
 showScene();
+
+
+
+// Ocultar el cursor original de toda la página, incluso en botones, links, inputs, etc.
+const style = document.createElement('style');
+style.innerHTML = `
+  * {
+    cursor: none !important;
+  }
+`;
+document.head.appendChild(style);
+
+// Crear el cursor personalizado
+const cursor = document.createElement('div');
+cursor.style.position = 'fixed';
+cursor.style.width = '32px';
+cursor.style.height = '32px';
+cursor.style.backgroundImage = 'url("img/puntero.png")';
+cursor.style.backgroundSize = 'cover';
+cursor.style.pointerEvents = 'none';
+cursor.style.transform = 'translate(-50%, -50%)';
+cursor.style.zIndex = '9999';
+document.body.appendChild(cursor);
+
+// Seguir el movimiento del cursor
+document.addEventListener('mousemove', (e) => {
+  cursor.style.left = e.pageX + 'px';
+  cursor.style.top = e.pageY + 'px';
+
+  // Crear estrellas al mover
+  const star = document.createElement('div');
+  star.style.position = 'fixed';
+  star.style.left = e.pageX + 'px';
+  star.style.top = e.pageY + 'px';
+  star.style.width = '6px';
+  star.style.height = '6px';
+  star.style.borderRadius = '50%';
+  star.style.pointerEvents = 'none';
+  star.style.zIndex = '9998';
+
+  const colors = ['#ffffff', '#ffeb3b', '#ff4081', '#00e5ff', '#76ff03'];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  star.style.background = color;
+  star.style.boxShadow = `0 0 8px 2px ${color}`;
+
+  document.body.appendChild(star);
+
+  // Animación de caída suave
+  star.animate([
+    { transform: 'translateY(0px)', opacity: 1 },
+    { transform: 'translateY(40px)', opacity: 0 }
+  ], { duration: 700, easing: 'ease-out', fill: 'forwards' });
+
+  setTimeout(() => star.remove(), 700);
+});
+
+// Explosión de estrellas al hacer clic
+document.addEventListener('click', (e) => {
+  const numStars = 12;
+  const colors = ['#ffffff', '#ffeb3b', '#ff4081', '#00e5ff', '#76ff03'];
+
+  for (let i = 0; i < numStars; i++) {
+    const star = document.createElement('div');
+    star.style.position = 'fixed';
+    star.style.left = e.pageX + 'px';
+    star.style.top = e.pageY + 'px';
+    star.style.width = '6px';
+    star.style.height = '6px';
+    star.style.borderRadius = '50%';
+    star.style.pointerEvents = 'none';
+    star.style.zIndex = '9998';
+
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    star.style.background = color;
+    star.style.boxShadow = `0 0 8px 2px ${color}`;
+
+    document.body.appendChild(star);
+
+    // Dirección aleatoria
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 50 + Math.random() * 50;
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
+
+    // Animación de explosión
+    star.animate([
+      { transform: `translate(0px, 0px) scale(1)`, opacity: 1 },
+      { transform: `translate(${x}px, ${y}px) scale(0)`, opacity: 0 }
+    ], {
+      duration: 800 + Math.random() * 400,
+      easing: 'ease-out',
+      fill: 'forwards'
+    });
+
+    setTimeout(() => star.remove(), 1200);
+  }
+});
